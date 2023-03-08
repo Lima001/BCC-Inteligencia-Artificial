@@ -93,12 +93,14 @@ template <class T> class Matriz {
         void print(){
             //std::cout << "Linhas: " << n_linha << std::endl;
             //std::cout << "Colunas: " << n_coluna << std::endl;
+            assert(ptr != nullptr);
 
             for (int i=0; i<n_linha; i++){
                 for (int j=0; j<n_coluna; j++){
                     std::cout << ptr[i][j] << "\t";
                 }
-                std::cout << std::endl;
+                if (i != n_linha-1)
+                    std::cout << std::endl;
             }
         }
 
@@ -254,8 +256,23 @@ template <class T> class Matriz {
 
         // Operador de acesso
         T*& operator[](unsigned int index){
-            assert(index >= 0 && index < n_linha);
+            //assert(index >= 0 && index < n_coluna);
             return ptr[index];    
+        }
+
+        // Operador de igualdade
+        bool operator==(const Matriz<T> &m){
+            if (m.nLinha != n_linha  || m.nColuna != n_coluna)
+                return false;
+            
+            for (int i=0; i<n_linha; i++){
+                for (int j=0; j<n_coluna; j++){
+                    if (m[i][j] != ptr[i][j])
+                        return false;
+                }
+            }
+
+            return true;
         }
 
         unsigned int nLinha(){

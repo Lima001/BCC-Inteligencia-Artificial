@@ -18,7 +18,7 @@
     - Hagan, M. T., Demuth, H. B., & Beale, M. H. (2014). Neural Network Design (2nd Edition);
 */
 
-#include "matriz.h"
+#include "../matriz.h"
 
 double hardlim(double n){
     /*
