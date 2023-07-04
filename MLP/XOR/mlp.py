@@ -1,3 +1,8 @@
+# The training method is design for this specific problem. It's only applying 
+# the backpropagation algorithm and adjusting the weights. 
+# Accuracy is disconsidered. In the folder "Digit Classifier" you can see an 
+# implementation that consider this, and uses hot encoding for output representation.
+
 import numpy as np
 import os
 import csv
@@ -118,41 +123,19 @@ class MLP:
             for i, e in enumerate(self.errors[j]):
                 self.weights[j][i] -= (hidden_output_array * lr * e)
 
-    def train(self, x_train, y_train, x_test=None, y_test=None, epochs=EPOCHS, lr=LEARNING_RATE, print_acc=True, print_mse=False):
+    def train(self, x_train, y_train, epochs=EPOCHS, lr=LEARNING_RATE, print_mse=False):
         index_train = list(range(len(x_train)))
         
         for i in range(epochs):
             # Training
-            sum_training_successes = 0
-
             np.random.shuffle(index_train)
             
             for j in index_train:
                 x = np.concatenate((np.array([1.0]), x_train[j]))
                 self.forward(x)
                 
-                if self.outputs[-1].argmax() == y_train[j].argmax():
-                    sum_training_successes += 1
-                
                 self.backward(y_train[j], print_mse)
                 self.adjust_weights(x, lr)
-
-            if print_acc:
-                print(f"Epoch: {i} - Train accuracy: {sum_training_successes/len(y_train)}", end=" ") 
-
-            # Testing - Validation
-            if x_test is not None:
-                sum_validation_successes = 0.0
-
-                for j in range(len(x_test)):
-                    x = np.concatenate((np.array([1.0]), x_test[j]))
-                    self.forward(x)
-                    
-                    if self.outputs[-1].argmax() == y_test[j].argmax():
-                        sum_validation_successes += 1
-
-                if print_acc:
-                    print(f"- Test accuracy: {sum_validation_successes/len(y_test)}")
 
     def predict(self, x, verbose=False):
         xi = np.concatenate((np.array([1.0]), x))
