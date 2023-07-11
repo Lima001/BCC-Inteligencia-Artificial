@@ -119,6 +119,9 @@ class MLP:
                 self.weights[j][i] -= (hidden_output_array * lr * e)
 
     def train(self, x_train, y_train, x_test=None, y_test=None, epochs=EPOCHS, lr=LEARNING_RATE, print_acc=True, print_mse=False):
+        # The accuracy evaluation takes in consideration that the output is represented by hot-encoding.
+        # You may have to adapt this method to apply in other problems, depending on its context!  
+        
         index_train = list(range(len(x_train)))
         
         for i in range(epochs):

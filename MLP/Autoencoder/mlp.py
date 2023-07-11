@@ -31,12 +31,13 @@ class MLP:
         self.outputs = [None for i in range(n_layers)]
         self.errors = [None for i in range(n_layers)]
 
-    def init_layer(self, ith, input_count, neuron_count, lb=LOWER_BOUND, ub=UPPER_BOUND):
+    def init_layer(self, ith, input_count, neuron_count, lb=LOWER_BOUND, ub=UPPER_BOUND, generate_radom_weights=True):
         w = np.zeros((neuron_count,input_count+1))
 
-        for i in range(neuron_count):
-            for j in range(1, (input_count+1)):
-                w[i][j] = np.random.uniform(lb, ub)
+        if generate_radom_weights:
+            for i in range(neuron_count):
+                for j in range(1, (input_count+1)):
+                    w[i][j] = np.random.uniform(lb, ub)
 
         self.weights[ith] = w
         self.outputs[ith] = np.zeros(neuron_count)
